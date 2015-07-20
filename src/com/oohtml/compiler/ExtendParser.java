@@ -59,7 +59,7 @@ public class ExtendParser extends Parser {
 			//If it's overridden, delete it from sup.
 			if(e.hasAttr(Language.OVERRIDE_ATTRIBUTE)){
 				for(Element el : supElements){
-					if(el.attr(Language.NAME_TO_OVERRIDE_ATTRIBUTE).equals(e.attr(Language.OVERRIDE_ATTRIBUTE))){
+					if(el.attr(Language.IDENTIFICATION_ATTRIBUTE).equals(e.attr(Language.IDENTIFICATION_ATTRIBUTE))){
 						supElements.remove(el);
 						continue loop;
 					}
@@ -79,7 +79,7 @@ public class ExtendParser extends Parser {
 			}else{
 				//If it's not overridden but does correspond to an element, recursively extend it.
 				for(Element el: supElements){
-					if(el.hasAttr(Language.NAME_TO_OVERRIDE_ATTRIBUTE) && el.attr(Language.NAME_TO_OVERRIDE_ATTRIBUTE).equals(e.attr(Language.OVERRIDE_ATTRIBUTE))){
+					if(el.hasAttr(Language.IDENTIFICATION_ATTRIBUTE) && el.attr(Language.IDENTIFICATION_ATTRIBUTE).equals(e.attr(Language.IDENTIFICATION_ATTRIBUTE))){
 						Element temp = extend(el.clone(), e.clone()).clone();
 						e.replaceWith(temp);
 						supElements.remove(el);

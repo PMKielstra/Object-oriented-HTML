@@ -80,7 +80,7 @@ public class BlockParser extends Parser {
 				nn = parsedNodes.get(resolvedPath);
 			}
 			//Find the required block inside the new node.
-			Elements blocks = ((Document) nn.code).getElementsByAttributeValue(Language.EXPOSE_ATTRIBUTE, name);
+			Elements blocks = ((Document) nn.code).getElementsByAttribute(Language.EXPOSE_ATTRIBUTE).select("[" + Language.IDENTIFICATION_ATTRIBUTE + "=" + name + "]");
 			//If there isn't a block with the right name, throw an exception.
 			if(blocks.size() < 1){
 				throw new BadCodeException("No such block as " + name + " in " + nn.path + ".");
