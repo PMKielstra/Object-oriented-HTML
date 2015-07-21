@@ -61,12 +61,7 @@ public class NamedNode {
 	public void saveToDisk(String pathToWriteTo) {
 		if (pathToWriteTo == null || pathToWriteTo.equals(""))
 			return;
-		try (PrintWriter pw = new PrintWriter(new FileOutputStream(pathToWriteTo, false))) { // Pass
-																								// 'false'
-																								// to
-																								// overwrite
-																								// the
-																								// file.
+		try (PrintWriter pw = new PrintWriter(new FileOutputStream(pathToWriteTo, false))) { // Pass false to overwrite the file.
 			pw.write(((Document) code).html());
 			pw.flush();
 			pw.close();

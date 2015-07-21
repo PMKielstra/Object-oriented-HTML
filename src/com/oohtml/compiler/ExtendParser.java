@@ -2,7 +2,6 @@ package com.oohtml.compiler;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
@@ -26,8 +25,6 @@ import org.jsoup.select.Elements;
 public class ExtendParser extends Parser {
 
 	private List<String> usedPaths;
-	private HashMap<String, NamedNode> parsedNodes = new HashMap<String, NamedNode>();
-
 	@Override
 	public NamedNode parseDocument(NamedNode input) {
 		usedPaths = new ArrayList<String>();
@@ -36,35 +33,16 @@ public class ExtendParser extends Parser {
 
 	private NamedNode parse(NamedNode input) {
 		if (!((Document) input.code).child(0).hasAttr(Language.EXTEND_ATTRIBUTE))
-			return input; // If we don't actually extend anything here, don't
-							// bother.
+			return input; // If we don't actually extend anything here, don't bother.
 		NamedNode sup = new NamedNode(
-				resolveRelativePath(input, ((Document) input.code).child(0).attr(Language.EXTEND_ATTRIBUTE))); // Get
-																												// the
-																												// NamedNode
-																												// we
-																												// extend.
+				resolveRelativePath(input, ((Document) input.code).child(0).attr(Language.EXTEND_ATTRIBUTE))); // Get the NamedNode we extend.
 		if (usedPaths.contains(sup.path)) { // Check for circular references.
 			throw new BadCodeException("Circular inheritance from " + input.path + " to " + sup.path + ".");
 		} else {
 			usedPaths.add(sup.path);
 		}
-		if (!parsedNodes.containsKey(sup.path)) { // Parse the NamedNode we
-													// extend in case it extends
-													// something itself.
-			sup = parse(sup);
-			parsedNodes.put(sup.path, sup);
-		} else {
-			sup = parsedNodes.get(sup.path);
-		}
-
-		Element head = extend(((Document) sup.code).head(), ((Document) input.code).head()); // Actually
-																								// extend
-																								// the
-																								// <head>
-																								// and
-																								// <body>
-																								// elements.
+		sup = Processor.processNamedNode(sup); // Parse the NamedNode we extend in case it extends something itself.
+		Element head = extend(((Document) sup.code).head(), ((Document) input.code).head()); //Actually extend the <head> and <body> elements.
 		Element body = extend(((Document) sup.code).body(), ((Document) input.code).body());
 		((Document) input.code).head().replaceWith(head.clone());
 		((Document) input.code).body().replaceWith(body.clone());

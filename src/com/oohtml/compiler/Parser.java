@@ -22,7 +22,7 @@ public class Parser {
 	 * @return The node at the end of the relative path from the given node or
 	 *         null if a filesystem error caused the files to be unreadable.
 	 */
-	public String resolveRelativePath(NamedNode node, String path) {
+	protected String resolveRelativePath(NamedNode node, String path) {
 		File parentFolder = new File(new File(node.path).getParent());
 		File newNode = new File(parentFolder, path);
 		try {

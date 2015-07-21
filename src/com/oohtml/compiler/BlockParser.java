@@ -2,7 +2,6 @@ package com.oohtml.compiler;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
@@ -30,8 +29,6 @@ import org.jsoup.select.Elements;
 public class BlockParser extends Parser {
 
 	private List<String> usedPaths;
-	private HashMap<String, NamedNode> parsedNodes = new HashMap<String, NamedNode>();
-
 	/**
 	 * This is the 'public face' of the parser.
 	 *
@@ -78,12 +75,7 @@ public class BlockParser extends Parser {
 				// Get the canonical path to the node in question.
 				String resolvedPath = resolveRelativePath(input, path);
 				// If we haven't already parsed this node, parse it.
-				if (!parsedNodes.containsKey(resolvedPath)) {
-					nn = parse(new NamedNode(resolvedPath));
-					parsedNodes.put(resolvedPath, nn);
-				} else {
-					nn = parsedNodes.get(resolvedPath);
-				}
+				nn = Processor.processNamedNode(new NamedNode(resolvedPath));
 			} else {
 				nn = input;
 				name = nameAndPath;

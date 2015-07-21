@@ -15,16 +15,6 @@ import java.nio.file.attribute.BasicFileAttributes;
  */
 public class Main {
 
-	private static Parser[] parsers = new Parser[] { new BlockParser(), new ExtendParser() }; // The
-																								// parsers
-																								// to
-																								// apply
-																								// to
-																								// each
-																								// block,
-																								// in
-																								// order.
-
 	/**
 	 * The 'public face' of the program. This does the actual parsing.
 	 *
@@ -34,23 +24,9 @@ public class Main {
 	 *            instead of creating a new .html file.
 	 */
 	public static void main(String[] args) {
-		if (args.length == 0) // Don't parse anything if we haven't been given
-								// anything to parse.
+		if (args.length == 0) // Don't parse anything if we haven't been given anything to parse.
 			return;
-		List<OverwritablePath> paths = new ArrayList<OverwritablePath>(); // Create
-																			// a
-																			// list
-																			// of
-																			// paths
-																			// along
-																			// with
-																			// data
-																			// on
-																			// whether
-																			// they
-																			// can
-																			// be
-																			// overwritten.
+		List<OverwritablePath> paths = new ArrayList<OverwritablePath>(); // Create a list of paths along with data on whether they can be overwritten.
 		for (int i = 0; i < args.length; i++) {
 			if (args[i].equals("-o")) {
 				paths.add(new OverwritablePath(args[i + 1], true, new File(args[i + 1]).isDirectory()));
@@ -62,21 +38,7 @@ public class Main {
 		try {
 			for (OverwritablePath op : paths) {
 				if (op.isDirectory) {
-					Files.walkFileTree(new File(op.path).toPath(), new SimpleFileVisitor<Path>() { // Walk
-																									// the
-																									// file
-																									// tree
-																									// (depth-first)
-																									// given
-																									// in
-																									// the
-																									// argument,
-																									// parsing
-																									// every
-																									// .oohtml
-																									// file
-																									// found
-																									// there.
+					Files.walkFileTree(new File(op.path).toPath(), new SimpleFileVisitor<Path>() { // Walk the file tree (depth-first) in the given argument, parsing every .oohtml file found there.
 						@Override
 						public FileVisitResult visitFile(Path arg0, BasicFileAttributes arg1) throws IOException {
 							if (arg0.toString().endsWith(".oohtml"))
@@ -90,35 +52,15 @@ public class Main {
 			}
 		} catch (BadCodeException e) {
 			System.err.println(e.getMessage());
-		} catch (IOException e) { // Usually, nothing should go wrong with the
-									// walkFileTree method.
+		} catch (IOException e) { // Usually, nothing should go wrong with the walkFileTree method.
 			e.printStackTrace();
 		}
 	}
 
-	private static void handleNamedNodeAt(OverwritablePath op) { // This is
-																	// where the
-																	// actual
-																	// parsing
-																	// goes on.
-																	// Note that
-																	// this
-																	// method
-																	// cannot
-																	// cope with
-																	// paths
-																	// that
-																	// point to
-																	// directories.
-		NamedNode nn = new NamedNode(op.path); // Parse the .oohtml file at each
-												// path going through each of
-												// the parsers in turn.
-		for (Parser p : parsers) {
-			nn = p.parseDocument(nn);
-		}
-		if (op.overwrite) { // If we have to overwrite the .oohtml file, do so.
-							// Otherwise, replace the .oohtml file extension
-							// with .html and save the code there.
+	private static void handleNamedNodeAt(OverwritablePath op) { // This is where the actual parsing happens.  Note that the method cannot cope with paths that point to directories.
+		NamedNode nn = new NamedNode(op.path); // Parse the .oohtml file at each path going through each of the parsers in turn.
+		nn = Processor.processNamedNode(nn);
+		if (op.overwrite) { // If we have to overwrite the .oohtml file, do so.  Otherwise, replace the .oohtml extension with .html and save the code there.
 			nn.saveToDisk(nn.path);
 		} else {
 			String pathWithoutFileExtension = op.path.substring(0, op.path.lastIndexOf('.'));
