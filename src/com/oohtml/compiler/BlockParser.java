@@ -82,7 +82,7 @@ public class BlockParser extends Parser {
 			}
 			// Find the required block inside the new node.
 			Elements blocks = ((Document) nn.code).getElementsByAttribute(Language.EXPOSE_ATTRIBUTE)
-					.select("[" + Language.IDENTIFICATION_ATTRIBUTE + "=" + name + "]");
+					.select("[" + Language.IDENTIFICATION_ATTRIBUTE + "=\"" + name + "\"]");
 			// If there isn't a block with the right name, throw an exception.
 			if (blocks.size() < 1) {
 				throw new BadCodeException("No such block as " + name + " in " + nn.path + ".");
@@ -96,7 +96,6 @@ public class BlockParser extends Parser {
 			// remove block from nn), remove the 'expose' attribute from it, and
 			// insert it into the document.
 			Element block = blocks.first().clone();
-			block.removeAttr(Language.EXPOSE_ATTRIBUTE);
 			e.replaceWith(block);
 		}
 		return input;

@@ -76,7 +76,19 @@ public class ExtendParser extends Parser {
 				}
 				// Fail silently if no element is found to override.
 				continue loop;
-			} else {
+			}else if(e.tagName().equals("meta")){ //If this is a meta tag,
+				if(e.hasAttr("name")){ //If it's got a name,
+					Elements metaThatMatch = supElements.select("meta[name=\""+e.attr("name")+"\"]"); //Find and override the meta tag in supElements with that name.
+					if(metaThatMatch.size() == 1){
+						supElements.remove(supElements.indexOf(metaThatMatch.first()));
+					}
+				}else if(e.hasAttr("http-equiv")){ //If it's got a http-equiv,
+					Elements metaThatMatch = supElements.select("meta[http-equiv=\""+e.attr("http-equiv")+"\"]"); //Find and override the meta tag in supElements with that http-equiv.
+					if(metaThatMatch.size() == 1){
+						supElements.remove(supElements.indexOf(metaThatMatch.first()));
+					}
+				}
+			}else {
 				// If it's not overridden but does correspond to an element,
 				// recursively extend it.
 				for (Element el : supElements) {

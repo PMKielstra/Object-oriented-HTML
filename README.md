@@ -95,6 +95,8 @@ When a child of the superclass element shares an `id` with a child of the subcla
 </div>
 ```
 It is perfectly possible to have a 'chain' of extensions, so `file1.oohtml` could extend `file2.oohtml`, which itself extends `file3.oohtml`.
+###Compilation order
+The `extends` attribute is always resolved *before* the `block` element.
 ## What is it good for?
 ### Templates
 This is, beyond doubt, the thing that I think object-oriented HTML would be most useful for.  You can create a nicely laid-out template with blank spaces where the content should be, and then a whole series of bare-bones files containing nothing but the content, but which extend the template file.  You can then compile them and have a set of files containing both the content and the formatting needed to display it right.  If you wanted to make a change to the formatting, all you would need to do would be to edit the template and recompile the content files.

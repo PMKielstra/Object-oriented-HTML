@@ -6,7 +6,7 @@ import java.util.HashMap;
  * A small class that calls the parsers in order.
  * */
 public class Processor {
-	private static Parser[] parsers = new Parser[] { new BlockParser(), new ExtendParser() }; // The parsers to apply to each block, in order.
+	private static Parser[] parsers = new Parser[] {new ExtendParser(), new BlockParser()}; // The parsers to apply to each block, in order.
 	
 	private static HashMap<String, NamedNode> parsedNodes = new HashMap<String, NamedNode>();
 	
