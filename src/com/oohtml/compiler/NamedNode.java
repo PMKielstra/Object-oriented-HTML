@@ -55,8 +55,9 @@ public class NamedNode {
 
 	/**
 	 * This method writes the contents of the NamedNode to the disk at the
-	 * location given in the path variable, or does nothing if the path variable
-	 * is empty.
+	 * location given.
+	 * 
+	 * @param pathToWriteTo The path at which to save the file.
 	 */
 	public void saveToDisk(String pathToWriteTo) {
 		if (pathToWriteTo == null || pathToWriteTo.equals(""))
