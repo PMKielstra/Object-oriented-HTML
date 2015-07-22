@@ -33,17 +33,17 @@ public class Main {
 		List<OverwritablePath> paths = new ArrayList<OverwritablePath>(); // Create a list of paths along with data on whether they can be overwritten.
 		File parentFolder = new File(URLDecoder.decode(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath(), "UTF-8"));
 		for (int i = 0; i < args.length; i++) {
-			if (args[i].equals("-o")) {
-				if(!Paths.get(args[i+1]).isAbsolute()){
-					args[i+1] = new File(parentFolder, args[i+1]).getAbsolutePath();
+			if (args[i].equals("-o")) {	//If this argument is an override switch,
+				if(!Paths.get(args[i+1]).isAbsolute()){ //If the next argument (which should be the path) is relative,
+					args[i+1] = new File(parentFolder, args[i+1]).getAbsolutePath(); //Resolve it to an absolute path.
 				}
-				paths.add(new OverwritablePath(args[i+1], true, new File(args[i + 1]).isDirectory()));
-				i++;
-			} else {
-				if(!Paths.get(args[i]).isAbsolute()){
-					args[i] = new File(parentFolder, args[i]).getAbsolutePath();
+				paths.add(new OverwritablePath(args[i+1], true, new File(args[i + 1]).isDirectory())); //Add an overridden path to the paths list.
+				i++; //Skip the next argument (args[i+1]) because we've already processed it.
+			} else { //If this isn't an override switch,
+				if(!Paths.get(args[i]).isAbsolute()){ //If this path is relative,
+					args[i] = new File(parentFolder, args[i]).getAbsolutePath(); //Resolve it.
 				}
-				paths.add(new OverwritablePath(args[i], false, new File(args[i]).isDirectory()));
+				paths.add(new OverwritablePath(args[i], false, new File(args[i]).isDirectory())); //Add a non-overwritten path to the paths list.
 			}
 		}
 		try {
