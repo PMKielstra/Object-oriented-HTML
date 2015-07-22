@@ -32,10 +32,9 @@ When the above code is compiled, the `block` tag will be replaced with the block
 ```html
 <!--Part of the compiled file2.html-->
 <body>
-	<div id="exposed">Lorem ipsum.</div>
+	<div id="exposed" expose>Lorem ipsum.</div>
 </body>
 ```
-The `expose` attribute, no longer needed, has been removed.
 
 Blocks can be nested within each other, and a `block` element can reference a block in the same file -- just use its `id` attribute as the `src` with no file path.
 ### Extension
