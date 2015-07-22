@@ -17,6 +17,8 @@ public class Language {
 	public static final String EXTEND_ATTRIBUTE = "extends";
 	public static final String OVERRIDE_ATTRIBUTE = "override";
 	public static final String IDENTIFICATION_ATTRIBUTE = "id";
+	
+	public static final String FILE_EXTENSION = ".oohtml";
 
 	//A list of elements to automatically override.
 	private static HashSet<String> AUTOMATICALLY_OVERRIDDEN = new HashSet<String>(

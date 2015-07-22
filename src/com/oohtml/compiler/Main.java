@@ -52,7 +52,7 @@ public class Main {
 					Files.walkFileTree(new File(op.path).toPath(), new SimpleFileVisitor<Path>() { // Walk the file tree (depth-first) in the given argument, parsing every .oohtml file found there.
 						@Override
 						public FileVisitResult visitFile(Path arg0, BasicFileAttributes arg1) throws IOException {
-							if (arg0.toString().endsWith(".oohtml"))
+							if (arg0.toString().endsWith(Language.FILE_EXTENSION))
 								handleNamedNodeAt(new OverwritablePath(arg0.toString(), op.overwrite, false));
 							return FileVisitResult.CONTINUE;
 						}
