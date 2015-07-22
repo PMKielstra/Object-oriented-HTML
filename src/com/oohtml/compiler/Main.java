@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
@@ -22,16 +25,24 @@ public class Main {
 	 *            A list of file paths to .oohtml files to parse. Prefix them
 	 *            with '-o ' to overwrite the .oohtml file with the parsed HTML
 	 *            instead of creating a new .html file.
+	 * @throws UnsupportedEncodingException Generally this shouldn't happen.  It happens if the system doesn't support UTF-8.
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UnsupportedEncodingException {
 		if (args.length == 0) // Don't parse anything if we haven't been given anything to parse.
 			return;
 		List<OverwritablePath> paths = new ArrayList<OverwritablePath>(); // Create a list of paths along with data on whether they can be overwritten.
+		File parentFolder = new File(URLDecoder.decode(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath(), "UTF-8"));
 		for (int i = 0; i < args.length; i++) {
 			if (args[i].equals("-o")) {
-				paths.add(new OverwritablePath(args[i + 1], true, new File(args[i + 1]).isDirectory()));
+				if(!Paths.get(args[i+1]).isAbsolute()){
+					args[i+1] = new File(parentFolder, args[i+1]).getAbsolutePath();
+				}
+				paths.add(new OverwritablePath(args[i+1], true, new File(args[i + 1]).isDirectory()));
 				i++;
 			} else {
+				if(!Paths.get(args[i]).isAbsolute()){
+					args[i] = new File(parentFolder, args[i]).getAbsolutePath();
+				}
 				paths.add(new OverwritablePath(args[i], false, new File(args[i]).isDirectory()));
 			}
 		}

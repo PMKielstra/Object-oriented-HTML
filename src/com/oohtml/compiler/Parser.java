@@ -2,6 +2,7 @@ package com.oohtml.compiler;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 /**
  * The base class for the parsers for all the various language elements. A
@@ -21,8 +22,12 @@ public class Parser {
 	 *            The relative path from the given node to the referenced one.
 	 * @return The node at the end of the relative path from the given node or
 	 *         null if a filesystem error caused the files to be unreadable.
+	 *         If the passed path is in fact absolute, it is returned instead.
 	 */
 	protected String resolveRelativePath(NamedNode node, String path) {
+		if(Paths.get(path).isAbsolute()){
+			return path;
+		}
 		File parentFolder = new File(new File(node.path).getParent());
 		File newNode = new File(parentFolder, path);
 		try {
