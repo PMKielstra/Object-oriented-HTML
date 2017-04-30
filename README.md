@@ -13,7 +13,7 @@ $ java -jar /file/to/not/overwrite.oohtml -o /file/to/overwrite.oohtml
 
 ## Syntax
 ### Public 'methods'
-Use the `expose` tag to mark a public block of HTML.
+Use the `expose` attribute to mark a public block of HTML.
 ```html
 <!--Part of file1.oohtml-->
 <body>
@@ -112,7 +112,7 @@ There are a lot of IDEs for object-oriented languages, and a lot for HTML, but n
 ## Legal
 Object-oriented HTML uses JSoup, which is licensed under the MIT license.
 ```
-© 2009-2015, Jonathan Hedley <jonathan@hedley.net>
+Â© 2009-2015, Jonathan Hedley <jonathan@hedley.net>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
