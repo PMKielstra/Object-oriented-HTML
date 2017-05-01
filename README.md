@@ -94,7 +94,7 @@ When a child of the superclass element shares an `id` with a child of the subcla
 </div>
 ```
 It is perfectly possible to have a 'chain' of extensions, so `file1.oohtml` could extend `file2.oohtml`, which itself extends `file3.oohtml`.
-###Compilation order
+### Compilation order
 The `extends` attribute is always resolved *before* the `block` element.
 ## What is it good for?
 ### Templates
